@@ -1,54 +1,78 @@
-package com.shop.model;
+package model;
 
 import java.time.LocalDate;
 
-public class Cliente {
+public class Pedido {
 
-    private int idCliente;          // Primary Key
-    private String nombre;          // Requerido
-    private String email;           // Requerido y que tenga formato válido
-    private int puntosFidelidad;    // Entero
-    private LocalDate fechaRegistro; // Tipo LocalDate
+    private int idPedido;       // El id_pedido
+    private LocalDate fecha;    // Fecha Actual
+    private float importe;      // Importe del pedido (float)
+    private boolean pagado;     // SI o NO esta pagado  (boolean)
+    private int idCliente;      // Clave externa del id_cliente
 
-
-    public Cliente() {
+    public Pedido() {
     }
 
-
-    public Cliente(String nombre, String email, int puntosFidelidad, LocalDate fechaRegistro) {
-        this.nombre = nombre;
-        this.email = email;
-        this.puntosFidelidad = puntosFidelidad;
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    // Para recuperar desde la BD
-    public Cliente(int idCliente, String nombre, String email, int puntosFidelidad, LocalDate fechaRegistro) {
+    // Constructor SIN ID ( Para insertar los datos)
+    public Pedido(LocalDate fecha, float importe, boolean pagado, int idCliente) {
+        this.fecha = fecha;
+        this.importe = importe;
+        this.pagado = pagado;
         this.idCliente = idCliente;
-        this.nombre = nombre;
-        this.email = email;
-        this.puntosFidelidad = puntosFidelidad;
-        this.fechaRegistro = fechaRegistro;
     }
 
-    // Getters y Setters desde la BD.
-    public int getIdCliente() { return idCliente; }
-    public void setIdCliente(int idCliente) { this.idCliente = idCliente; }
+    // Constructor CON ID ( Para consultar o leer en la BD)
+    public Pedido(int idPedido, LocalDate fecha, float importe, boolean pagado, int idCliente) {
+        this.idPedido = idPedido;
+        this.fecha = fecha;
+        this.importe = importe;
+        this.pagado = pagado;
+        this.idCliente = idCliente;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    // Getters y Setters
+    public int getIdPedido() {
+        return idPedido;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
+    }
 
-    public int getPuntosFidelidad() { return puntosFidelidad; }
-    public void setPuntosFidelidad(int puntosFidelidad) { this.puntosFidelidad = puntosFidelidad; }
+    public LocalDate getFecha() {
+        return fecha;
+    }
 
-    public LocalDate getFechaRegistro() { return fechaRegistro; }
-    public void setFechaRegistro(LocalDate fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public float getImporte() {
+        return importe;
+    }
+
+    public void setImporte(float importe) {
+        this.importe = importe;
+    }
+
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
 
     @Override
     public String toString() {
-        return "Cliente{" + "id=" + idCliente + ", nombre=" + nombre + ", email=" + email + '}';
+        return "Pedido [id=" + idPedido + ", fecha=" + fecha + ", importe=" + importe + "]";
     }
 }
