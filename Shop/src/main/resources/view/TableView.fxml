@@ -18,40 +18,40 @@
     </padding>
 
     <HBox alignment="CENTER_LEFT" spacing="20.0">
-        <Label text="Vista General de Datos">
+        <Label text="General View">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <Button onAction="#handleRefrescar" text="🔄 Refrescar Datos" />
+        <Button onAction="#handleRefrescar" text="🔄 Update" />
     </HBox>
 
     <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 
-        <Tab text="Clientes Registrados">
+        <Tab text="Customer List">
             <AnchorPane>
                 <TableView fx:id="tablaClientes" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="colIdCli" prefWidth="50.0" text="ID" />
-                        <TableColumn fx:id="colNombre" prefWidth="100.0" text="Nombre" />
-                        <TableColumn fx:id="colCliente" prefWidth="120.0" text="Cliente" />
+                        <TableColumn fx:id="colNombre" prefWidth="100.0" text="Name" />
+                        <TableColumn fx:id="colCliente" prefWidth="120.0" text="Customer" />
                         <TableColumn fx:id="colEmail" prefWidth="150.0" text="Email" />
                         <TableColumn fx:id="colVip" prefWidth="60.0" text="VIP" />
-                        <TableColumn fx:id="colFechaAlta" prefWidth="100.0" text="Fecha Alta" />
+                        <TableColumn fx:id="colFechaAlta" prefWidth="100.0" text="Registration Date" />
                     </columns>
                 </TableView>
             </AnchorPane>
         </Tab>
 
-        <Tab text="Historial de Pedidos">
+        <Tab text="View Orders">
             <AnchorPane>
                 <TableView fx:id="tablaPedidos" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                        <TableColumn fx:id="colIdPed" prefWidth="60.0" text="ID Ped" />
-                        <TableColumn fx:id="colFechaPed" prefWidth="100.0" text="Fecha" />
-                        <TableColumn fx:id="colImporte" prefWidth="80.0" text="Importe (€)" />
-                        <TableColumn fx:id="colPagado" prefWidth="70.0" text="Pagado" />
-                        <TableColumn fx:id="colIdClienteFK" prefWidth="70.0" text="ID Cli" />
+                        <TableColumn fx:id="colIdPed" prefWidth="60.0" text="ID" />
+                        <TableColumn fx:id="colFechaPed" prefWidth="100.0" text="Date" />
+                        <TableColumn fx:id="colImporte" prefWidth="80.0" text="Price (€)" />
+                        <TableColumn fx:id="colPagado" prefWidth="70.0" text="Paid" />
+                        <TableColumn fx:id="colIdClienteFK" prefWidth="70.0" text="ID Customer" />
                     </columns>
                 </TableView>
             </AnchorPane>

@@ -22,18 +22,17 @@ public class Cliente {
     }
 
     // Constructor CON ID (para Consultar/Leer de la BD)
-    public Cliente(int idCliente, String nombre, String cliente, String email, boolean vip, LocalDate fechaAlta) {
+    public Cliente(int idCliente, String nombre, String email, boolean vip, LocalDate fechaAlta) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.email = email;
         this.vip = vip;
         this.fechaAlta = fechaAlta;
     }
-
     // Getters y Setters
 
 
-    public String getIdCliente() { return idCliente; }
+    public int getIdCliente() { return idCliente; }
     public void setIdCliente(int idCliente) { this.idCliente = idCliente; }
 
     public String getNombre() { return nombre; }

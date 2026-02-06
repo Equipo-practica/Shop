@@ -11,21 +11,21 @@
         <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
     </padding>
 
-    <Label text="Gestión de Shop">
+    <Label text="Shop">
         <font>
             <Font name="System Bold" size="24.0" />
         </font>
     </Label>
 
-    <Label text="Seleccione una opción:" textFill="#666666" />
+    <Label text="Select:" textFill="#666666" />
 
-    <Button fx:id="btnGestionClientes" maxWidth="200.0" mnemonicParsing="false" onAction="#handleGestionClientes" text="Gestión de Clientes (CRUD)">
+    <Button fx:id="btnGestionClientes" maxWidth="200.0" mnemonicParsing="false" onAction="#handleGestionClientes" text="Customer Management(CRUD)">
         <font>
             <Font size="14.0" />
         </font>
     </Button>
 
-    <Button fx:id="btnVerTablas" maxWidth="200.0" mnemonicParsing="false" onAction="#handleVerTablas" text="Ver Tablas y Pedidos">
+    <Button fx:id="btnVerTablas" maxWidth="200.0" mnemonicParsing="false" onAction="#handleVerTablas" text="View Orders">
         <font>
             <Font size="14.0" />
         </font>

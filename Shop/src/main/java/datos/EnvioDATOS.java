@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnvioDAO {
+public class EnvioDATOS {
 
     public boolean insertar(Envio e) {
         String sql = "INSERT INTO envio (direccion, id_pedido, fecha_entrega, estado) VALUES (?, ?, ?, ?)";
@@ -14,14 +14,14 @@ public class EnvioDAO {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, e.getDireccion());
-            ps.setInt(2, e.getIdPedido());
+            ps.setInt(2, e.getIdEnvio());
             ps.setDate(3, java.sql.Date.valueOf(e.getFechaEntrega()));
             ps.setString(4, e.getEstado());
 
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.err.println("Error al crear envío: " + ex.getMessage());
+            System.err.println("Error sending: " + ex.getMessage());
             return false;
         }
     }
@@ -91,7 +91,7 @@ public class EnvioDAO {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, e.getDireccion());
-            ps.setInt(2, e.getIdPedido());
+            ps.setInt(2, e.getIdEnvio());
             ps.setDate(3, java.sql.Date.valueOf(e.getFechaEntrega()));
             ps.setString(4, e.getEstado());
             ps.setInt(5, e.getIdEnvio());
