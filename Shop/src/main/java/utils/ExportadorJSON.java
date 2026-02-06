@@ -1,4 +1,4 @@
-package com.svalero.shop.utils;
+package utils;
 
 public class ExportadorJSON {
 }
