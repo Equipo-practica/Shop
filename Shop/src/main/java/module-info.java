@@ -6,5 +6,6 @@ module com.svalero.shop {
     requires java.sql;
     opens controller to javafx.fxml;
     opens com.svalero.shop to javafx.fxml;
+    exports com.svalero.shop;
     exports controller;
 }

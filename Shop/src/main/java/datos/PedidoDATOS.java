@@ -21,7 +21,7 @@ public class PedidoDATOS {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error adding order: " + e.getMessage());
+            System.err.println("Error insertando pedido: " + e.getMessage());
             return false;
         }
     }

@@ -57,10 +57,10 @@ public class ClienteController {
         exito = ClientesDATOS.insertar(nuevoCliente);
 
         if (exito) {
-            mostrarAlerta("ok", "Customer registered successfully.");
+            mostrarAlerta("Éxito", "Cliente registrado correctamente.");
             limpiarFormulario();
         } else {
-            mostrarAlerta("Error", "Customer registration failed.");
+            mostrarAlerta("Error", "No se pudo guardar en la base de datos.");
         }
     }
 
@@ -76,13 +76,13 @@ public class ClienteController {
                 txtEmail.setText(c.getEmail());
                 chkVip.setSelected(c.isVip());
                 dpFechaAlta.setValue(c.getFechaAlta());
-                lblMensaje.setText("Client found.");
+                lblMensaje.setText("Cliente encontrado.");
             } else {
-                mostrarAlerta("Info", "Client not found.");
+                mostrarAlerta("Info", "No existe cliente con ese ID.");
                 limpiarFormulario();
             }
         } catch (NumberFormatException e) {
-            mostrarAlerta("Error", "ID must be a number.");
+            mostrarAlerta("Error", "El ID debe ser un número entero.");
         }
     }
 
@@ -90,7 +90,7 @@ public class ClienteController {
     @FXML
     private void handleModificar() {
         if (txtId.getText().isEmpty()) {
-            mostrarAlerta("Error", "Search a customer by inserting the ID and then modify.");
+            mostrarAlerta("Error", "Busca un cliente por ID antes de modificar.");
             return;
         }
         if (!esFormularioValido()) return;
@@ -99,6 +99,7 @@ public class ClienteController {
         Cliente clienteModificado = new Cliente(
                 id,
                 txtNombre.getText(),
+                txtCliente.getText(),
                 txtEmail.getText(),
                 chkVip.isSelected(),
                 dpFechaAlta.getValue()
@@ -107,9 +108,9 @@ public class ClienteController {
         boolean exito = ClientesDATOS.actualizar(clienteModificado);
 
         if (exito) {
-            mostrarAlerta("ok", "Customer modified.");
+            mostrarAlerta("Éxito", "Cliente modificado correctamente.");
         } else {
-            mostrarAlerta("Error", "Unable to modify.");
+            mostrarAlerta("Error", "Error al modificar.");
         }
     }
 
@@ -122,10 +123,10 @@ public class ClienteController {
         boolean exito = ClientesDATOS.eliminar(id);
 
         if (exito) {
-            mostrarAlerta("ok", "Customer deleted.");
+            mostrarAlerta("Éxito", "Cliente eliminado.");
             limpiarFormulario();
         } else {
-            mostrarAlerta("Error", "Unable to delete.");
+            mostrarAlerta("Error", "No se pudo eliminar.");
         }
     }
 
@@ -149,12 +150,12 @@ public class ClienteController {
     private boolean esFormularioValido() {
         // Validación de campos obligatorios
         if (txtNombre.getText().isEmpty() || txtCliente.getText().isEmpty()) {
-            mostrarAlerta("Validación", "Name and Client needed.");
+            mostrarAlerta("Validación", "Nombre y 'Cliente' son obligatorios.");
             return false;
         }
         // Validación de formato Email
         if (!Pattern.matches(EMAIL_REGEX, txtEmail.getText())) {
-            mostrarAlerta("Validación", "Invalid email format.");
+            mostrarAlerta("Validación", "El formato del email es incorrecto.");
             return false;
         }
         return true;

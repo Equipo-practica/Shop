@@ -13,16 +13,20 @@ public class ConexionBD {
 
     private static Connection conexion = null;
 
+    private ConexionBD() {
+        // Constructor de buscqueda privada
+    }
+
     public static Connection getConexion() {
         try {
             if (conexion == null || conexion.isClosed()) {
                 // Cargar driver (opcional en versiones nuevas, pero recomendado por seguridad)
                 Class.forName("org.mariadb.jdbc.Driver");
                 conexion = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println(">>> Connected to MariaDB.");
+                System.out.println(">>> Conexión a MariaDB establecida.");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.err.println("Critical error connecting to the database.");
+            System.err.println("Error crítico al conectar con la base de datos.");
             e.printStackTrace();
         }
         return conexion;
@@ -32,7 +36,7 @@ public class ConexionBD {
         if (conexion != null) {
             try {
                 conexion.close();
-                System.out.println(">>> Disconnected.");
+                System.out.println(">>> Conexión cerrada.");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -1,6 +1,6 @@
 package datos;
 
-import controller.Launcher;
+import com.svalero.shop.Launcher;
 import model.Cliente;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,11 +12,12 @@ public class ClientesDATOS {
     public static boolean insertar(Cliente c) {
         String sql = "INSERT INTO cliente (nombre, cliente, email, vip, fecha_alta) VALUES (?, ?, ?, ?, ?)";
 
+        Object Launcher;
         try (Connection con = Launcher.ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, c.getNombre());
-            ps.setInt(2, c.getIdCliente());
+            ps.setString(2, c.getIdCliente());
             ps.setString(3, c.getEmail());
             ps.setBoolean(4, c.isVip());
             ps.setDate(5, Date.valueOf(c.getFechaAlta()));
@@ -24,7 +25,7 @@ public class ClientesDATOS {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error adding the client: " + e.getMessage());
+            System.err.println("Error al insertar cliente: " + e.getMessage());
             return false;
         }
     }
@@ -77,7 +78,7 @@ public class ClientesDATOS {
             ps.setString(2, c.getNombre());
             ps.setString(3, c.getEmail());
             ps.setBoolean(5, c.isVip());
-            ps.setDate(4, Date.valueOf(c.getFechaAlta()));
+            ps.setDate(4, java.sql.Date.valueOf(c.getFechaAlta()));
             ps.setInt(1, c.getIdCliente());
 
             int filasAfectadas = ps.executeUpdate();
@@ -99,12 +100,12 @@ public class ClientesDATOS {
             int filas = ps.executeUpdate();
             return filas > 0;
         } catch (SQLException e) {
-            System.err.println("Impossible to delete (you cannot delete clients with orders): " + e.getMessage());
+            System.err.println("Error al eliminar (puede tener pedidos asociados): " + e.getMessage());
             return false;
         }
     }
     // Metodo para no repetir codigo al leer ResultSet
-        private static Cliente mapearCliente(ResultSet rs) throws SQLException {
+        private Cliente mapearCliente(ResultSet rs) throws SQLException {
         return new Cliente(
                 rs.getInt("id_cliente"),
                 rs.getString("nombre"),

@@ -23,14 +23,14 @@ public class MainController {
     // Maneja el clic en el botón de Gestión de Clientes. Carga el formulario CRUD.
     @FXML
     private void handleGestionClientes(ActionEvent event) {
-        cargarVista("/view/ClienteForm.fxml", "Customers Management - Coffee Shop");
+        cargarVista("/view/ClienteForm.fxml", "Gestión de Clientes - Cafetería");
     }
 
     // Maneja el clic en el botón de Ver Tablas. Carga la vista con los TableView de ambas entidades.
 
     @FXML
     private void handleVerTablas(ActionEvent event) {
-        cargarVista("/view/TableView.fxml", "General information");
+        cargarVista("/view/TableView.fxml", "Listado General de Datos");
     }
 
     /**
@@ -63,17 +63,17 @@ public class MainController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarError("Error", "Could not load: " + fxmlPath);
+            mostrarError("Error de Carga", "No se pudo cargar la vista: " + fxmlPath);
         } catch (NullPointerException e) {
-            System.err.println("Error: File FXML not found in this path: " + fxmlPath);
-            mostrarError("Setup Error", "File FXML not found.");
+            System.err.println("Error: No se encontró el archivo FXML en la ruta: " + fxmlPath);
+            mostrarError("Error de Configuración", "Archivo FXML no encontrado.");
         }
     }
 
     // Muestra una alerta de error al usuario.
     private void mostrarError(String cabecera, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("An error occured with the app ");
+        alert.setTitle("Error de Aplicación");
         alert.setHeaderText(cabecera);
         alert.setContentText(mensaje);
         alert.showAndWait();
