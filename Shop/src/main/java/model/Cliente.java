@@ -4,16 +4,16 @@ import java.time.LocalDate;
 
 public class Cliente {
 
-    private int idCliente;      // Corresponde a id_cliente
-    private String nombre;
-    private String email;
-    private boolean vip;        // Corresponde a VIP (boolean)
-    private LocalDate fechaAlta;// Corresponde a fecha_alta
+    private int idCliente;      // El id_cliente
+    private String nombre;      // Nombre cliente
+    private String email;       // Email de cliente
+    private boolean vip;        // SI el cliente es VIP (boolean)
+    private LocalDate fechaAlta;// Fecha de alta del mismo.
 
     public Cliente() {
     }
 
-    // Constructor SIN ID (para Insertar)
+    // Constructor SIN ID (para insertar los datos)
     public Cliente(String nombre, String cliente, String email, boolean vip, LocalDate fechaAlta) {
         this.nombre = nombre;
         this.email = email;
@@ -21,7 +21,7 @@ public class Cliente {
         this.fechaAlta = fechaAlta;
     }
 
-    // Constructor CON ID (para Consultar/Leer de BD)
+    // Constructor CON ID (para Consultar/Leer de la BD)
     public Cliente(int idCliente, String nombre, String cliente, String email, boolean vip, LocalDate fechaAlta) {
         this.idCliente = idCliente;
         this.nombre = nombre;
@@ -31,6 +31,8 @@ public class Cliente {
     }
 
     // Getters y Setters
+
+
     public int getIdCliente() { return idCliente; }
     public void setIdCliente(int idCliente) { this.idCliente = idCliente; }
 
