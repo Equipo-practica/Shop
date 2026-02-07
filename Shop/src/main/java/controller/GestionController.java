@@ -328,6 +328,13 @@ public class GestionController {
     }
 
     private boolean validarCliente() {
+        if(txtNombreCli.getText().isEmpty())  {
+            lblMensaje.setText("Error: Name cannot be empty");
+            return false;
+        } else if (!Validador.esEmailValido(txtEmailCli.getText())) {
+            lblMensaje.setText("Error: Enter a valid email");
+            return false;
+        }
         return !txtNombreCli.getText().isEmpty() && Validador.esEmailValido(txtEmailCli.getText());
     }
 

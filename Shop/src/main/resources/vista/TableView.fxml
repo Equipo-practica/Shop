@@ -43,11 +43,11 @@
             <Tab text="Orders">
                 <TableView fx:id="tablaPedidos">
                     <columns>
-                        <TableColumn fx:id="colIdPed" prefWidth="70" text="ID Ord" />
+                        <TableColumn fx:id="colIdPed" prefWidth="70" text="ID Order" />
                         <TableColumn fx:id="colFechaPed" prefWidth="100" text="Date" />
                         <TableColumn fx:id="colImporte" prefWidth="80" text="Amount" />
                         <TableColumn fx:id="colPagado" prefWidth="70" text="Paid" />
-                        <TableColumn fx:id="colIdClienteFK" prefWidth="70" text="ID Cli" />
+                        <TableColumn fx:id="colIdClienteFK" prefWidth="70" text="ID Customoer" />
                     </columns>
                 </TableView>
             </Tab>
@@ -57,7 +57,7 @@
                     <columns>
                         <TableColumn fx:id="colIdEnvio" prefWidth="70" text="ID Ship" />
                         <TableColumn fx:id="colDireccion" prefWidth="200" text="Address" />
-                        <TableColumn fx:id="colIdPedFK" prefWidth="70" text="ID Ord" />
+                        <TableColumn fx:id="colIdPedFK" prefWidth="70" text="ID Order" />
                         <TableColumn fx:id="colFechaEntrega" prefWidth="100" text="Del. Date" />
                         <TableColumn fx:id="colEstado" prefWidth="100" text="Status" />
                     </columns>
