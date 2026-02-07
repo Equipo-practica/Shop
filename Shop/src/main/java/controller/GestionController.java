@@ -161,7 +161,7 @@ public class GestionController {
             if (c != null) {
                 txtNombreCli.setText(c.getNombre());
                 txtEmailCli.setText(c.getEmail());
-                chkVipCli.setSelected(c.isVip());
+                chkVipCli.setText(c.isVip());
                 dpFechaCli.setValue(c.getFechaAlta());
                 lblMensaje.setText("Client found.");
             } else { lblMensaje.setText("Client not found."); }
@@ -245,7 +245,7 @@ public class GestionController {
             if (p != null) {
                 dpFechaPed.setValue(p.getFecha());
                 txtImportePed.setText(String.valueOf(p.getImporte()));
-                chkPagadoPed.setSelected(p.isPagado());
+                chkPagadoPed.setText(p.isPagado());
                 seleccionarClienteEnCombo(p.getIdCliente());
                 lblMensaje.setText("Order found.");
             } else { lblMensaje.setText("Order not found."); }

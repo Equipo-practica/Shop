@@ -49,8 +49,12 @@ public class Cliente {
         this.email = email;
     }
 
-    public boolean isVip() {
-        return vip;
+    public String isVip() {
+        if(vip) {
+            return "VIP";
+        } else {
+            return "Not VIP";
+        }
     }
 
     public void setVip(boolean vip) {
