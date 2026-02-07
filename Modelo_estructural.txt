@@ -1,0 +1,24 @@
+Modelo estructural para el proyecto:
+
+
+src/main/java/Shop/     # Estructura base del proyecto
+
+model/                  # Las clases (Entidades)
+    Cliente.java        # Atributos : String, INT,LocalDate...
+    Pedido.java         # Atributos : Float,boolean..
+    Envio.java          #
+datos/                  #Logica SQL para el acceso de la BD
+    ConexionBD.java     # Para conectar con MariaDB
+    ClienteDATOS.java   # Para los metodos CRUD (insert, update, delete, findALL)
+    PedidoDATOS.java    #
+vista/                  #Archivos de interfaz
+    MainView.fxml       #Pantalla principal
+    ClienteForm.fxml    #Formulario (Sin TableView)
+    TableView.fxml
+controller/             # Parte Logica de la interfaz
+    MainController.java #
+    ClienteController.java # Para manejar los eventos,botones etc..
+    TableController.java
+utils/                  # Herramientas de apoyo
+    Validador.java      # Metodos estaticos para la validacion en linea.
+    ExportadorJSON.java # Logica para exportar los datos
