@@ -49,8 +49,13 @@ public class Pedido {
         this.importe = importe;
     }
 
-    public boolean isPagado() {
-        return pagado;
+    public String isPagado() {
+
+        if(pagado) {
+            return "Paid";
+        } else {
+            return "Not paid";
+        }
     }
 
     public void setPagado(boolean pagado) {

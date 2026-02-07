@@ -50,7 +50,7 @@ public class PedidoDATOS {
             ps.setInt(1, p.getIdPedido());
             ps.setDate(2, Date.valueOf(p.getFecha()));
             ps.setFloat(3, p.getImporte());
-            ps.setBoolean(4, p.isPagado());
+            ps.setString(4, p.isPagado());
             ps.setInt(5, p.getIdCliente());
 
             return ps.executeUpdate() > 0;
@@ -92,7 +92,7 @@ public class PedidoDATOS {
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setDate(1, Date.valueOf(p.getFecha()));
             ps.setFloat(2, p.getImporte());
-            ps.setBoolean(3, p.isPagado());
+            ps.setString(3, p.isPagado());
             ps.setInt(4, p.getIdCliente());
             ps.setInt(5, p.getIdPedido());
             return ps.executeUpdate() > 0;

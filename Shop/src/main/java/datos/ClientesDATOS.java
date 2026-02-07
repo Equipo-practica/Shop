@@ -16,7 +16,7 @@ public class ClientesDATOS {
             ps.setInt(1, c.getIdCliente());
             ps.setString(2, c.getNombre());
             ps.setString(3, c.getEmail());
-            ps.setBoolean(4, c.isVip());
+            ps.setString(4, c.isVip());
             ps.setDate(5, Date.valueOf(c.getFechaAlta()));
 
             return ps.executeUpdate() > 0;
@@ -58,7 +58,7 @@ public class ClientesDATOS {
 
             ps.setString(1, c.getNombre());
             ps.setString(2, c.getEmail());
-            ps.setBoolean(3, c.isVip());
+            ps.setString(3, c.isVip());
             ps.setDate(4, Date.valueOf(c.getFechaAlta()));
             ps.setInt(5, c.getIdCliente());
 
