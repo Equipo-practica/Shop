@@ -5,23 +5,29 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnvioDAO {
+public class EnvioDATOS {
 
     public boolean insertar(Envio e) {
-        String sql = "INSERT INTO envio (direccion, id_pedido, fecha_entrega, estado) VALUES (?, ?, ?, ?)";
-
+        String sql = "INSERT INTO envio (id_envio, direccion, id_pedido, fecha_entrega, estado) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, e.getDireccion());
-            ps.setInt(2, e.getIdPedido());
-            ps.setDate(3, java.sql.Date.valueOf(e.getFechaEntrega()));
-            ps.setString(4, e.getEstado());
+            ps.setInt(1, e.getIdEnvio());
+            ps.setString(2, e.getDireccion());
+            ps.setInt(3, e.getIdPedido());
 
-            ps.executeUpdate();
-            return true;
+            if (e.getFechaEntrega() != null) {
+                ps.setDate(4, Date.valueOf(e.getFechaEntrega()));
+            } else {
+                ps.setNull(4, Types.DATE);
+            }
+
+            ps.setString(5, e.getEstado());
+
+            return ps.executeUpdate() > 0;
+
         } catch (SQLException ex) {
-            System.err.println("Error al crear envío: " + ex.getMessage());
+            System.err.println("Error inserting shipment: " + ex.getMessage());
             return false;
         }
     }
@@ -29,19 +35,12 @@ public class EnvioDAO {
     public List<Envio> listarTodos() {
         List<Envio> lista = new ArrayList<>();
         String sql = "SELECT * FROM envio";
-
         try (Connection con = ConexionBD.getConexion();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
-                lista.add(new Envio(
-                        rs.getInt("id_envio"),
-                        rs.getString("direccion"),
-                        rs.getInt("id_pedido"),
-                        rs.getDate("fecha_entrega").toLocalDate(),
-                        rs.getString("estado")
-                ));
+                lista.add(mapearEnvio(rs));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -49,40 +48,38 @@ public class EnvioDAO {
         return lista;
     }
 
-    public boolean eliminar(int idEnvio) {
-        String sql = "DELETE FROM envio WHERE id_envio = ?";
+    public List<Envio> listarPorPedido(int idPedido) {
+        List<Envio> lista = new ArrayList<>();
+        String sql = "SELECT * FROM envio WHERE id_pedido = ?";
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, idEnvio);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
-        }
-    }
 
-    // Método para buscar por ID
-    public Envio buscarPorId(int id) {
-        String sql = "SELECT * FROM envio WHERE id_envio = ?";
-        Envio env = null;
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, idPedido);
             try (ResultSet rs = ps.executeQuery()) {
-                if(rs.next()){
-                    env = new Envio(
-                            rs.getInt("id_envio"),
-                            rs.getString("direccion"),
-                            rs.getInt("id_pedido"),
-                            rs.getDate("fecha_entrega").toLocalDate(),
-                            rs.getString("estado")
-                    );
+                while (rs.next()) {
+                    lista.add(mapearEnvio(rs));
                 }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return env;
+        return lista;
+    }
+
+    public Envio buscarPorId(int id) {
+        String sql = "SELECT * FROM envio WHERE id_envio = ?";
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapearEnvio(rs);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public boolean actualizar(Envio e) {
@@ -92,14 +89,43 @@ public class EnvioDAO {
 
             ps.setString(1, e.getDireccion());
             ps.setInt(2, e.getIdPedido());
-            ps.setDate(3, java.sql.Date.valueOf(e.getFechaEntrega()));
+
+            if (e.getFechaEntrega() != null) {
+                ps.setDate(3, Date.valueOf(e.getFechaEntrega()));
+            } else {
+                ps.setNull(3, Types.DATE);
+            }
+
             ps.setString(4, e.getEstado());
             ps.setInt(5, e.getIdEnvio());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException ex) {
-            ex.printStackTrace();
             return false;
         }
+    }
+
+    public boolean eliminar(int idEnvio) {
+        String sql = "DELETE FROM envio WHERE id_envio = ?";
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idEnvio);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    private Envio mapearEnvio(ResultSet rs) throws SQLException {
+        Date fechaSQL = rs.getDate("fecha_entrega");
+        java.time.LocalDate fechaLocal = (fechaSQL != null) ? fechaSQL.toLocalDate() : null;
+
+        return new Envio(
+                rs.getInt("id_envio"),
+                rs.getString("direccion"),
+                rs.getInt("id_pedido"),
+                fechaLocal,
+                rs.getString("estado")
+        );
     }
 }
