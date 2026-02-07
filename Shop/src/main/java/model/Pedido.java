@@ -4,24 +4,17 @@ import java.time.LocalDate;
 
 public class Pedido {
 
-    private int idPedido;       // El id_pedido
-    private LocalDate fecha;    // Fecha Actual
-    private float importe;      // Importe del pedido (float)
-    private boolean pagado;     // SI o NO esta pagado  (boolean)
-    private int idCliente;      // Clave externa del id_cliente
+    private int idPedido;
+    private LocalDate fecha;
+    private float importe;
+    private boolean pagado;
+    private int idCliente; // Clave foránea hacia Cliente
 
+    // Constructor vacío
     public Pedido() {
     }
 
-    // Constructor SIN ID ( Para insertar los datos)
-    public Pedido(LocalDate fecha, float importe, boolean pagado, int idCliente) {
-        this.fecha = fecha;
-        this.importe = importe;
-        this.pagado = pagado;
-        this.idCliente = idCliente;
-    }
-
-    // Constructor CON ID ( Para consultar o leer en la BD)
+    // Constructor completo
     public Pedido(int idPedido, LocalDate fecha, float importe, boolean pagado, int idCliente) {
         this.idPedido = idPedido;
         this.fecha = fecha;
@@ -31,6 +24,7 @@ public class Pedido {
     }
 
     // Getters y Setters
+
     public int getIdPedido() {
         return idPedido;
     }
@@ -71,8 +65,14 @@ public class Pedido {
         this.idCliente = idCliente;
     }
 
+    // toString para facilitar depuración
     @Override
     public String toString() {
-        return "Pedido [id=" + idPedido + ", fecha=" + fecha + ", importe=" + importe + "]";
+        return "Pedido{" +
+                "id=" + idPedido +
+                ", fecha=" + fecha +
+                ", importe=" + importe +
+                ", pagado=" + pagado +
+                '}';
     }
 }

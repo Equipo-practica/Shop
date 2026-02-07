@@ -7,41 +7,34 @@ import java.util.List;
 
 public class PedidoDATOS {
 
-    public boolean insertar(Pedido p) {
-        String sql = "INSERT INTO pedido (fecha, importe, pagado, id_cliente) VALUES (?, ?, ?, ?)";
-
-        try (Connection con = ConexionBD.getConexion();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setDate(1, java.sql.Date.valueOf(p.getFecha()));
-            ps.setFloat(2, p.getImporte());
-            ps.setBoolean(3, p.isPagado());
-            ps.setInt(4, p.getIdCliente());
-
-            ps.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.err.println("Error adding order: " + e.getMessage());
-            return false;
-        }
-    }
-
     public List<Pedido> listarTodos() {
         List<Pedido> lista = new ArrayList<>();
         String sql = "SELECT * FROM pedido";
-
         try (Connection con = ConexionBD.getConexion();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
-                lista.add(new Pedido(
-                        rs.getInt("id_pedido"),
-                        rs.getDate("fecha").toLocalDate(),
-                        rs.getFloat("importe"),
-                        rs.getBoolean("pagado"),
-                        rs.getInt("id_cliente")
-                ));
+                lista.add(mapearPedido(rs));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error listing orders: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    public List<Pedido> listarPorCliente(int idCliente) {
+        List<Pedido> lista = new ArrayList<>();
+        String sql = "SELECT * FROM pedido WHERE id_cliente = ?";
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idCliente);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(mapearPedido(rs));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,32 +42,73 @@ public class PedidoDATOS {
         return lista;
     }
 
-    public boolean eliminar(int idPedido) {
-        String sql = "DELETE FROM pedido WHERE id_pedido = ?";
+    public boolean insertar(Pedido p) {
+        String sql = "INSERT INTO pedido (id_pedido, fecha, importe, pagado, id_cliente) VALUES (?, ?, ?, ?, ?)";
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, idPedido);
+
+            ps.setInt(1, p.getIdPedido());
+            ps.setDate(2, Date.valueOf(p.getFecha()));
+            ps.setFloat(3, p.getImporte());
+            ps.setBoolean(4, p.isPagado());
+            ps.setInt(5, p.getIdCliente());
+
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error inserting order: " + e.getMessage());
             return false;
         }
     }
 
-    // Método UPDATE opcional (según necesites)
+    public Pedido buscarPorId(int id) {
+        String sql = "SELECT * FROM pedido WHERE id_pedido = ?";
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return mapearPedido(rs);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error searching order: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean eliminar(int id) {
+        String sql = "DELETE FROM pedido WHERE id_pedido = ?";
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error deleting order: " + e.getMessage());
+            return false;
+        }
+    }
+
     public boolean actualizar(Pedido p) {
         String sql = "UPDATE pedido SET fecha=?, importe=?, pagado=?, id_cliente=? WHERE id_pedido=?";
         try (Connection con = ConexionBD.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setDate(1, java.sql.Date.valueOf(p.getFecha()));
+            ps.setDate(1, Date.valueOf(p.getFecha()));
             ps.setFloat(2, p.getImporte());
             ps.setBoolean(3, p.isPagado());
             ps.setInt(4, p.getIdCliente());
             ps.setInt(5, p.getIdPedido());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error updating order: " + e.getMessage());
             return false;
         }
+    }
+
+    private Pedido mapearPedido(ResultSet rs) throws SQLException {
+        return new Pedido(
+                rs.getInt("id_pedido"),
+                rs.getDate("fecha").toLocalDate(),
+                rs.getFloat("importe"),
+                rs.getBoolean("pagado"),
+                rs.getInt("id_cliente")
+        );
     }
 }
