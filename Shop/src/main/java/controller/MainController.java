@@ -3,79 +3,66 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class MainController {
 
-    @FXML
-    private Button btnGestionClientes;
+    @FXML private Button btnGestion;
+    @FXML private Button btnTablas;
 
-    @FXML
-    private Button btnVerTablas;
-
-    // Maneja el clic en el botón de Gestión de Clientes. Carga el formulario CRUD.
     @FXML
     private void handleGestionClientes(ActionEvent event) {
-        cargarVista("/view/ClienteForm.fxml", "Gestión de Clientes - Cafetería");
+        abrirVentana("/vista/GestionForm.fxml", "Management (Clients, Orders, Shipments)");
     }
-
-    // Maneja el clic en el botón de Ver Tablas. Carga la vista con los TableView de ambas entidades.
 
     @FXML
     private void handleVerTablas(ActionEvent event) {
-        cargarVista("/view/TableView.fxml", "Listado General de Datos");
+        abrirVentana("/vista/TableView.fxml", "Data List");
     }
 
-    /**
-     * Método genérico para cargar archivos FXML y mostrarlos en una nueva ventana.
-     * * @param fxmlPath Ruta relativa al archivo FXML en resources.
-     * @param titulo Título que tendrá la nueva ventana.
-     */
-    private void cargarVista(String fxmlPath, String titulo) {
+    @FXML
+    private void handleLogout(ActionEvent event) {
         try {
-            // 1. Instanciar el cargador de FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
 
-            // 2. Cargar el diseño
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/LoginView.fxml"));
             Parent root = loader.load();
 
-            // 3. Crear el escenario (Stage)
-            Stage stage = new Stage();
-            stage.setTitle(titulo);
-
-            // Hacer que la ventana sea modal (opcional: impide tocar la principal hasta cerrar esta)
-            stage.initModality(Modality.WINDOW_MODAL);
-            // Definimos la ventana principal como "dueña" si es posible
-            stage.initOwner(btnGestionClientes.getScene().getWindow());
-
-            // 4. Configurar la escena y mostrar
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setResizable(false); // Recomendado para formularios fijos
-            stage.show();
+            Stage loginStage = new Stage();
+            loginStage.setTitle("System Shop");
+            loginStage.setScene(new Scene(root));
+            loginStage.setResizable(false);
+            loginStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarError("Error de Carga", "No se pudo cargar la vista: " + fxmlPath);
-        } catch (NullPointerException e) {
-            System.err.println("Error: No se encontró el archivo FXML en la ruta: " + fxmlPath);
-            mostrarError("Error de Configuración", "Archivo FXML no encontrado.");
         }
     }
 
-    // Muestra una alerta de error al usuario.
-    private void mostrarError(String cabecera, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error de Aplicación");
-        alert.setHeaderText(cabecera);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    private void abrirVentana(String fxmlPath, String titulo) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle(titulo);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException | NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Load Error");
+            alert.setHeaderText("FXML file not found");
+            alert.setContentText("Check path: " + fxmlPath);
+            alert.showAndWait();
+            e.printStackTrace();
+        }
     }
 }
